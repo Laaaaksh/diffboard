@@ -23,4 +23,4 @@ All notable changes to diffboard are documented in this file. Format is based on
   and the first admin account bootstrapped automatically on first boot.
 - `diffboard init` scaffolds a starter `diffboard.config.js`.
 
-[Unreleased]: https://github.com/Laaaaksh/diffboard/commits/main
+[Unreleased]: https://github.com/Laaaaksh/diffboard/commits/master
