@@ -62,6 +62,16 @@ Tagging `vX.Y.Z` runs `.github/workflows/release.yml`, which sets `packages/cli/
 version from the tag and publishes `diffboard` to npm - the package.json version is not
 hand-bumped in commits. `scripts/release_notes.sh` pulls that version's section out of
 CHANGELOG.md for the GitHub release body and fails the release if that section is missing.
+No tag has ever been pushed and no `NPM_TOKEN` secret is configured on the repo, so as of
+this writing `npm install -g diffboard` has nothing to install - the README documents a
+from-source fallback until a real `v0.1.0` goes out. Publishing one needs an npm account/token,
+which is a credential decision, not something to do from an agent worktree.
+
+## Default branch is `master`, not `main`
+
+CI (`.github/workflows/ci.yml`) and CHANGELOG.md's compare links must target `master` - a past
+`main`/`master` mismatch left CI structurally unable to fire on any PR. Check this whenever
+adding or touching a workflow trigger or a branch-referencing doc link.
 
 ## Maintaining this file
 
