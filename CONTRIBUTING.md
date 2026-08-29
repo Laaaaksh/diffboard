@@ -20,6 +20,7 @@ cp packages/server/.env.example packages/server/.env
 # edit packages/server/.env: DATABASE_URL, SESSION_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD
 
 pnpm --filter @diffboard/server prisma:migrate
+pnpm --filter @diffboard/server prisma:generate
 pnpm --filter @diffboard/server seed
 pnpm --filter @diffboard/core run build
 make dev      # dashboard on http://localhost:4300
@@ -42,12 +43,12 @@ node packages/cli/dist/bin.js test --config examples/demo-site/diffboard.config.
 
 ## Contribution workflow
 
-The `main` branch is protected: every change lands through a pull request, required status
+The `master` branch is protected: every change lands through a pull request, required status
 checks must pass, and protection is enforced for everyone - including the maintainer. There
-are no direct pushes to `main`.
+are no direct pushes to `master`.
 
 1. Fork the repo on GitHub, then clone your fork (command above).
-2. Create a descriptively named feature branch from `main`.
+2. Create a descriptively named feature branch from `master`.
 3. Make your changes as small, focused commits.
 4. Run `make lint` and `make test` - both must pass. `make test` needs the local Postgres
    above (it runs the server's real integration tests against a `diffboard_test` database
@@ -55,7 +56,7 @@ are no direct pushes to `main`.
 5. If your change is user-facing (a feature, fix, or behavior change), add one bullet under
    the `Unreleased` heading in [CHANGELOG.md](CHANGELOG.md).
 6. Push the branch to your fork.
-7. Open a pull request against `main` here.
+7. Open a pull request against `master` here.
 
 A PR can merge only when the `Test` and `Lint` checks pass and all conversation threads are
 resolved.
@@ -82,7 +83,7 @@ Releases are cut by pushing a tag; GitHub Actions does the rest (`.github/workfl
 2. Give the release its own changelog section: insert `## [x.y.z] - YYYY-MM-DD` above the
    (now empty) `## [Unreleased]` heading, and update the compare links at the bottom of the
    file.
-3. Land those changelog edits on `main` through a pull request, then tag and push:
+3. Land those changelog edits on `master` through a pull request, then tag and push:
 
    ```bash
    git tag vx.y.z && git push origin vx.y.z

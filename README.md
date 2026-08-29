@@ -11,10 +11,8 @@ each change before the build goes green.
 [![Built for Playwright](https://img.shields.io/badge/built_for-Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev)
 
 [![CI](https://github.com/Laaaaksh/diffboard/actions/workflows/ci.yml/badge.svg)](https://github.com/Laaaaksh/diffboard/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/Laaaaksh/diffboard?color=green&display_name=tag)](https://github.com/Laaaaksh/diffboard/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](packages)
-[![npm](https://img.shields.io/npm/v/diffboard?logo=npm&label=npm)](https://www.npmjs.com/package/diffboard)
 [![Docker self-hosted](https://img.shields.io/badge/self--hosted-docker--compose-2496ED?logo=docker&logoColor=white)](#install)
 
 **[Install](#install) • [Usage](#usage) • [Configuration](#configuration) • [Changelog](CHANGELOG.md) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)**
@@ -81,6 +79,17 @@ project - the dashboard shows you a CLI token, once.
 ```bash
 npm install -g diffboard
 ```
+
+> No tagged release has been published to npm yet, so the command above has nothing to
+> install. Until a `v0.1.0` release goes out, build the CLI from source instead:
+>
+> ```bash
+> git clone https://github.com/Laaaaksh/diffboard.git
+> cd diffboard && corepack enable && pnpm install
+> pnpm --filter @diffboard/core run build
+> pnpm --filter diffboard run build
+> cd packages/cli && npm link   # puts `diffboard` on your PATH
+> ```
 
 ## Usage
 
