@@ -75,6 +75,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @diffboard/core run build
       - run: pnpm --filter @diffboard/server exec prisma migrate deploy
+      - run: pnpm --filter @diffboard/server run prisma:generate
       - run: pnpm --filter @diffboard/server run test
 
   test-cli:
