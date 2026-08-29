@@ -1,0 +1,51 @@
+# Copy this into your own repo at .github/workflows/diffboard.yml and adjust
+# the "start your app" step. It captures screenshots on every PR, diffs them
+# against main's approved baseline, and posts a commit status + PR comment.
+#
+# Required secrets/vars on your repo:
+#   DIFFBOARD_SERVER_URL - your self-hosted dashboard's URL
+#   DIFFBOARD_TOKEN       - the project token from the dashboard's "New project" screen
+#
+# GITHUB_TOKEN is provided automatically by Actions - no setup needed for the
+# initial status/comment. See README.md#github-integration for how the
+# dashboard's own Approve/Reject buttons flip that status outside of CI.
+name: diffboard
+
+on:
+  pull_request:
+
+jobs:
+  visual-regression:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Install diffboard
+        run: npm install -g diffboard
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Replace with however your app actually starts - a static build,
+      # `npm run dev`, docker compose, etc. diffboard just needs it reachable
+      # at the URL(s) your diffboard.config.js points at.
+      - name: Start the app under test
+        run: npm ci && npm run build && npx serve -l 3000 dist &
+
+      - name: Wait for the app
+        run: npx wait-on http://localhost:3000
+
+      - name: Run diffboard
+        env:
+          DIFFBOARD_SERVER_URL: ${{ vars.DIFFBOARD_SERVER_URL }}
+          DIFFBOARD_TOKEN: ${{ secrets.DIFFBOARD_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: diffboard test

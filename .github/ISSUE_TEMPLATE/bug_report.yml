@@ -1,0 +1,57 @@
+name: Bug report
+description: Report a problem with diffboard
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please say whether this is about the
+        `diffboard` CLI, the dashboard, or both.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Steps to reproduce the problem, and what you expected vs what actually happened.
+      placeholder: |
+        1. Run `diffboard test` with this config...
+        2. ...
+        3. See error / wrong result
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Where does this happen?
+      options:
+        - CLI (diffboard test/init)
+        - Dashboard (review UI)
+        - Dashboard API
+        - Self-hosting / docker-compose
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: diffboard-version
+    attributes:
+      label: diffboard CLI version
+      description: Output of `diffboard --version`, if relevant.
+      placeholder: "0.1.0"
+  - type: input
+    id: dashboard-deploy
+    attributes:
+      label: How is the dashboard deployed?
+      placeholder: "docker-compose (bundled), or: next start behind nginx, etc."
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Node.js version, OS, and (for CI issues) which CI platform.
+      placeholder: |
+        Node v20.11.0, macOS 14, GitHub Actions ubuntu-latest
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or error output
+      render: shell

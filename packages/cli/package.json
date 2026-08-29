@@ -1,0 +1,27 @@
+{
+  "name": "diffboard",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Visual regression testing CLI for Diffboard - captures screenshots with Playwright, diffs them against your approved baseline, and pushes the results to a Diffboard dashboard.",
+  "type": "module",
+  "bin": {
+    "diffboard": "./dist/bin.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@diffboard/core": "workspace:*",
+    "playwright": "^1.62.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  }
+}

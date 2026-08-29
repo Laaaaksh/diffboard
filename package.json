@@ -1,0 +1,21 @@
+{
+  "name": "diffboard-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "license": "MIT",
+  "packageManager": "pnpm@9.14.4",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter=./packages/* run build",
+    "test": "pnpm -r --filter=./packages/* run test",
+    "lint": "pnpm -r --filter=./packages/* run lint",
+    "format": "prettier --write .",
+    "dev:server": "pnpm --filter @diffboard/server dev"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2"
+  }
+}

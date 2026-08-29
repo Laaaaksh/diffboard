@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  /// Bearer token the CLI authenticates with. Shown once at creation time.
+  token       String   @unique
+  /// "owner/repo" - required only if GitHub status/comment sync is wanted.
+  repoSlug    String?
+  /// Personal access token (repo:status, or classic `repo` scope) used to flip
+  /// the commit status when a human approves/rejects from the dashboard - the
+  /// CI-provided GITHUB_TOKEN is ephemeral and can't be reused after the job ends.
+  githubToken String?
+  threshold   Float    @default(0.1)
+  createdAt   DateTime @default(now())
+
+  builds    Build[]
+  baselines Baseline[]
+}
+
+model Build {
+  id        String      @id @default(cuid())
+  projectId String
+  project   Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  /// The branch under test (e.g. a PR's source branch).
+  branch    String
+  /// The branch this build's screenshots were diffed against. Approving a
+  /// snapshot updates the Baseline for (project, baseBranch, name, viewport) -
+  /// not `branch` - so the next build on any branch compares against it.
+  baseBranch String
+  commitSha String
+  prNumber  Int?
+  status    BuildStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  snapshots Snapshot[]
+
+  @@index([projectId, createdAt])
+}
+
+enum BuildStatus {
+  PENDING
+  PASSED
+  NEEDS_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model Snapshot {
+  id           String         @id @default(cuid())
+  buildId      String
+  build        Build          @relation(fields: [buildId], references: [id], onDelete: Cascade)
+  name         String
+  viewport     String
+  imageKey     String
+  baselineKey  String?
+  diffKey      String?
+  diffPercent  Float?
+  status       SnapshotStatus @default(UNCHANGED)
+  reviewedAt   DateTime?
+  createdAt    DateTime       @default(now())
+
+  @@index([buildId])
+}
+
+enum SnapshotStatus {
+  NEW
+  UNCHANGED
+  CHANGED
+  APPROVED
+  REJECTED
+}
+
+model Baseline {
+  id         String   @id @default(cuid())
+  projectId  String
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  branch     String
+  name       String
+  viewport   String
+  imageKey   String
+  snapshotId String?
+  updatedAt  DateTime @updatedAt
+
+  @@unique([projectId, branch, name, viewport])
+}

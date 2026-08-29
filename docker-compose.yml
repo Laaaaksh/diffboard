@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: diffboard
+      POSTGRES_PASSWORD: diffboard
+      POSTGRES_DB: diffboard
+    volumes:
+      - diffboard-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U diffboard"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  server:
+    build:
+      context: .
+      dockerfile: packages/server/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "4300:4300"
+    environment:
+      DATABASE_URL: "postgresql://diffboard:diffboard@postgres:5432/diffboard"
+      SESSION_SECRET: "${SESSION_SECRET:?Set SESSION_SECRET in .env - generate one with `openssl rand -hex 32`}"
+      ADMIN_EMAIL: "${ADMIN_EMAIL:?Set ADMIN_EMAIL in .env for the first-boot admin account}"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in .env for the first-boot admin account}"
+      STORAGE_DIR: /data/storage
+      PUBLIC_URL: "${PUBLIC_URL:-http://localhost:4300}"
+      PORT: "4300"
+      HOSTNAME: "0.0.0.0"
+    volumes:
+      - diffboard-storage:/data/storage
+
+volumes:
+  diffboard-postgres:
+  diffboard-storage:

@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.next/
+*.tsbuildinfo
+
+# Env / secrets
+.env
+.env.local
+!.env.example
+!.env.test
+
+# Local self-hosted data
+data/
+.test-storage/
+.diffboard/
+
+# Playwright
+test-results/
+playwright-report/
+
+# macOS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log
