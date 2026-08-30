@@ -9,6 +9,9 @@
 # GITHUB_TOKEN is provided automatically by Actions - no setup needed for the
 # initial status/comment. See README.md#github-integration for how the
 # dashboard's own Approve/Reject buttons flip that status outside of CI.
+#
+# "npm install -g diffboard" below needs a tagged release to exist - see the
+# README's Install section for the build-from-source fallback until one does.
 name: diffboard
 
 on:
