@@ -21,6 +21,15 @@ each change before the build goes green.
 
 </div>
 
+## Demo
+
+![diffboard demo](docs/assets/demo.gif)
+
+A real run against the demo fixture in this repo: sign in, capture a baseline, ship a real CSS
+change to the CTA button, then triage the flagged diff in the review dashboard - approving the
+desktop screenshot (the intended rebrand) and rejecting the mobile one, where the same change
+shrinks the button below a usable tap target. Full quality: [docs/assets/demo.mp4](docs/assets/demo.mp4).
+
 ## What it does
 
 - Captures screenshots of any URL or Storybook story across a viewport matrix, driven by a
@@ -35,12 +44,6 @@ each change before the build goes green.
   approving a screenshot updates the baseline and turns the check green
 - Runs entirely on infrastructure you already have: `docker compose up` gets you Postgres +
   the dashboard, with no per-snapshot billing and no third party watching your screenshots
-
-<img src="docs/assets/demo.gif" alt="Reviewing a visual diff on the diffboard dashboard: a CTA button's padding and color changed, shown with a slider comparison, then approved" width="900">
-
-*A real recording against the running app in this repo: a CSS change shrinks and washes out
-a button, `diffboard test` flags it as changed in CI, and the reviewer compares it on the
-dashboard before approving.*
 
 ## Why not Percy or Chromatic?
 

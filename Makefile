@@ -1,4 +1,4 @@
-.PHONY: build dev test lint tidy clean
+.PHONY: build dev test lint tidy clean demo
 
 build:
 	pnpm --filter @diffboard/core run build
@@ -23,3 +23,10 @@ tidy:
 
 clean:
 	rm -rf packages/*/dist packages/server/.next node_modules packages/*/node_modules
+
+# Boots the real stack, records a genuine walkthrough, and converts it into
+# docs/assets/demo.mp4 + demo.gif for the README. See scripts/record-demo/README.md.
+demo:
+	cd scripts/record-demo && npm install
+	cd scripts/record-demo && npm run record
+	cd scripts/record-demo && npm run convert

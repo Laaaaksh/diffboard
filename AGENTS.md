@@ -73,6 +73,16 @@ CI (`.github/workflows/ci.yml`) and CHANGELOG.md's compare links must target `ma
 `main`/`master` mismatch left CI structurally unable to fire on any PR. Check this whenever
 adding or touching a workflow trigger or a branch-referencing doc link.
 
+## Regenerating the README demo (`docs/assets/demo.mp4`/`demo.gif`)
+
+`make demo` (or `scripts/record-demo/`'s own README) boots a disposable Postgres + the
+dashboard + `examples/demo-site`, drives the real product loop with Playwright, and converts
+the recording with ffmpeg. It runs the dashboard via `next start` against a production
+build, not `next dev` - the dev-mode build indicator overlay (`nextjs-portal`) intercepts
+Playwright's clicks and made the recorder flaky. `scripts/record-demo` is a standalone
+package outside `pnpm-workspace.yaml`'s `packages/*` glob (dev-only, never a product
+dependency).
+
 ## Maintaining this file
 
 Keep this file for knowledge useful to almost every future agent session in this project.

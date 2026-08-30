@@ -1,0 +1,14 @@
+{
+  "name": "diffboard-record-demo",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Dev-only recorder that boots the real diffboard stack and captures docs/assets/demo.mp4 + demo.gif. Not part of the pnpm workspace or product build.",
+  "type": "module",
+  "scripts": {
+    "record": "node record.mjs",
+    "convert": "bash convert.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}

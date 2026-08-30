@@ -21,6 +21,11 @@ data/
 test-results/
 playwright-report/
 
+# Demo recorder (dev-only, not part of the workspace)
+scripts/record-demo/node_modules/
+scripts/record-demo/out/
+scripts/record-demo/.tmp/
+
 # macOS
 .DS_Store
 
