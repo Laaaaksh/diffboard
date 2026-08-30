@@ -50,8 +50,9 @@ every PR burns through that fast. diffboard has no snapshot meter because there'
 counting them - you run the CLI and the dashboard on your own infrastructure.
 
 The closest open-source options today are either archived (Lost Pixel), stale for two years
-(BackstopJS), or a static HTML report with no review dashboard (reg-suit). diffboard is a
-maintained, actively-developed alternative with the review workflow those tools don't have.
+(BackstopJS), or a static HTML report with no review dashboard (reg-suit). diffboard is a new
+project that ships the piece those tools don't have: a slider / side-by-side / diff-overlay
+dashboard with an explicit approve-or-reject step, not just a diff report to read yourself.
 
 ## Requirements
 
@@ -153,15 +154,16 @@ back to green from there needs its own credential: set a GitHub PAT with `repo:s
 on the project in the dashboard (New Project screen, or later in project settings). Skip that
 and the dashboard still works - the commit status just won't update again after you review.
 
-## Self-hosting notes
+## Limits
 
+- **Chromium only.** Capture always runs through Playwright's Chromium, with no Firefox or
+  WebKit option. If a real rendering difference in Safari or Firefox is what you need to
+  catch, this won't catch it - Percy and Chromatic both offer cross-browser capture.
 - **Storage**: screenshots live on local disk under the `diffboard-storage` Docker volume by
   default. There's no automatic pruning yet - if you're capturing a lot of history, keep an
   eye on disk usage.
 - **Auth**: one shared admin account (`ADMIN_EMAIL`/`ADMIN_PASSWORD`), no SSO. Fine for a
   small team behind a VPN or basic-auth proxy; don't expose it to the public internet as-is.
-- **No telemetry.** diffboard doesn't phone home, and nothing about your screenshots or usage
-  leaves your own infrastructure.
 
 ## Changelog
 
